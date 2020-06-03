@@ -3,6 +3,21 @@ package kingdom;
 import java.util.*;
 public class Main{
 
+
+	private static List<AbstractAnimal> filterAnimals(List<AbstractAnimal> animals, Filter test )
+	{
+		List<AbstractAnimal> filteredAnimals = new ArrayList<>();
+
+		for (AbstractAnimal a : animals)
+		{
+			if (test.check(a))
+			{
+				filteredAnimals.add(a);
+			}
+		}
+		return filteredAnimals;
+	}
+
 	public static void main(String[] args)
 	{
 		System.out.println("Running");
@@ -12,33 +27,57 @@ public class Main{
 		// List all the animals in descending order by year named
 		Collections.sort(animals, (a1, a2) -> Integer.compare(a2.getYear(), a1.getYear()));
 
-		System.out.println("\n***Animals by Year, descending");
-		animals.forEach(a -> System.out.print(a.toString()));
+		System.out.println("\n***Animals By Year, descending\n" + animals.toString());
 
 
 		// List all the animals alphabetically
 		animals.sort( (a1,a2) -> a1.getName().compareToIgnoreCase(a2.getName()) );
 
-		System.out.println("\n***Animals alphabetically");
-		animals.forEach(a -> System.out.print(a.toString()));
+		System.out.println("\n***Animals alphabetically\n" + animals.toString());
 
 		// List all the animals order by how they move
 		animals.sort( (a1, a2) -> a1.howMove().compareToIgnoreCase(a2.howMove()) );
 
-		System.out.println("\n***Animals by movement");
-		animals.forEach(a -> System.out.print(a.toString()));
+		System.out.println("\n***Animalls by movement\n" + animals.toString());
 
 		// List only those animals the breath with lungs
+		List<AbstractAnimal> breathsWithLungs = filterAnimals(animals, a -> a.howBreath() == "Lungs" );
+
+		System.out.println("\n***Animals That breath with lungs");
+		breathsWithLungs.forEach(a -> System.out.print(a.toString()));
+
 		// List only those animals that breath with lungs and were named in 1758
+		List<AbstractAnimal> breathsWithLungs1758 = filterAnimals(animals, a -> (a.howBreath() == "Lungs") && (a.getYear() == 1758) );
+
+		System.out.println("\n***Animals That breath with lungs, discovered in 1758");
+		breathsWithLungs1758.forEach(a -> System.out.print(a.toString()));
+
+
 		// List only those animals that lay eggs and breath with lungs
+		List<AbstractAnimal> laysEggsWithLungs = filterAnimals(animals, a -> (a.howBreath() == "Lungs") && (a.howCop() == "Eggs") );
+
+		System.out.println("\n***Animals That breath with lungs, and lays eggs");
+		laysEggsWithLungs.forEach(a -> System.out.print(a.toString()));
+
+
 		// List alphabetically only those animals that were named in 1758
+		List<AbstractAnimal> animals1758 = filterAnimals(animals, a -> (a.getYear() == 1758) );
+		animals1758.sort(Comparator.comparing(a -> a.getName()));
+		//myList.sort(Comparator.comparing(o -> o.getKey().toString()));
+		System.out.println("\n***Animals named in 1758, alphabetically");
+
+		animals1758.forEach(a -> System.out.print(a.toString()));
+
+
 
 		// STRETCH GOAL
 		// For the list of animals, list alphabetically those animals that are mammals.
+		List<AbstractAnimal> mammals = filterAnimals(animals, a -> a instanceof Mammal);
+		mammals.sort((m1, m2) -> m1.getName().compareToIgnoreCase(m2.getName()) );
 
+		System.out.println("\n***Mammals, alphabetically");
 
-
-
+		mammals.forEach(m -> System.out.print(m.toString()));
 
 
 		// ########### LEFT OVER STUFF #####################

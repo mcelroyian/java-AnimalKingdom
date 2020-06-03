@@ -24,6 +24,6 @@ public class Mammal extends AbstractAnimal
 
 	@Override public String toString()
 	{
-		return "Animal[ID=" + id + ", Name=" + name + ", yearDiscovered=" + yearDiscovered + "]\n";
+		return name + " " + howCop() + " " + howMove() + " " + howBreath() + " " + yearDiscovered + "\n";
 	}
 }
